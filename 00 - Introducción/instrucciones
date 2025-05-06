@@ -1,26 +1,9 @@
-Clang
-
-https://clang.llvm.org/
-
----
-
-MSYS2
-
-https://www.msys2.org/
-
-pacman -Syu
-pacman -S make
-
-Añadir ruta a variable de entorno path
-
----
-
-Visual Studio
+Visual Studio Code
 
 https://visualstudio.microsoft.com/es/downloads/
 
 ---
 
-Visual Studio Code
+Visual Studio
 
 https://visualstudio.microsoft.com/es/
