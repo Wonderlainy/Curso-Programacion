@@ -1,0 +1,5 @@
+Incluir en SOURCES -> "external/tiny-AES-c/aes.c"
+
+add_subdirectory(external/nativefiledialog-extended)
+
+target_link_libraries(proyecto nfd)
