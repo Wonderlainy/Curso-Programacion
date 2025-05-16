@@ -1,7 +1,7 @@
-#include "external/nativefiledialog-extended/src/include/nfd.h"
+#include "../external/nativefiledialog-extended/src/include/nfd.h"
 #include <iostream>
 
-std::string openFileDialog() {
+inline std::string openFileDialog() {
     NFD_Init();
 
     std::string filePath = "";
