@@ -7,10 +7,10 @@
 #include <fstream>
 
 extern "C" {
-    #include "external/tiny-AES-c/aes.h"
+    #include "../external/tiny-AES-c/aes.h"
 }
 
-std::string toHexString(const std::vector<uint8_t>& data) {
+inline std::string toHexString(const std::vector<uint8_t>& data) {
     std::stringstream ss;
     ss << std::hex << std::setfill('0');
     
@@ -21,7 +21,7 @@ std::string toHexString(const std::vector<uint8_t>& data) {
     return ss.str();
 }
 
-std::vector<uint8_t> fromHexString(const std::string& hexStr) {
+inline std::vector<uint8_t> fromHexString(const std::string& hexStr) {
     // Check for valid input: must have even length
     if(hexStr.length() % 2 != 0) {
         throw std::invalid_argument("Hex string must have an even number of characters");
@@ -46,7 +46,7 @@ std::vector<uint8_t> fromHexString(const std::string& hexStr) {
 }
 
 // Pad data to be a multiple of AES block size (16 bytes)
-std::vector<uint8_t> padData(const std::string& input) {
+inline std::vector<uint8_t> padData(const std::string& input) {
     size_t inputLength = input.length();
     size_t paddedLength = ((inputLength + 15) / 16) * 16; // Round up to multiple of 16
     
@@ -63,7 +63,7 @@ std::vector<uint8_t> padData(const std::string& input) {
 }
 
 // Remove padding from decrypted data
-std::string removePadding(const std::vector<uint8_t>& padded) {
+inline std::string removePadding(const std::vector<uint8_t>& padded) {
     if(padded.empty()) return "";
     
     uint8_t paddingValue = padded.back();
@@ -73,7 +73,7 @@ std::string removePadding(const std::vector<uint8_t>& padded) {
     return std::string(padded.begin(), padded.begin() + dataLength);
 }
 
-std::vector<uint8_t> keyFromPassword(const std::string& password, size_t keyLength = 16) {
+inline std::vector<uint8_t> keyFromPassword(const std::string& password, size_t keyLength = 16) {
     std::vector<uint8_t> key(keyLength, 0);
     // Simple key derivation - still not secure for production
     for(size_t i = 0; i < password.length(); i++) {
@@ -87,7 +87,7 @@ std::vector<uint8_t> keyFromPassword(const std::string& password, size_t keyLeng
     return key;
 }
 
-std::vector<uint8_t> generate_random_iv() {
+inline std::vector<uint8_t> generate_random_iv() {
     std::vector<uint8_t> iv(16); // AES block size is 16 bytes
     
     // Use a cryptographically secure random number generator if possible
@@ -103,7 +103,7 @@ std::vector<uint8_t> generate_random_iv() {
     return iv;
 }
 
-void encrypt(const std::string& path, const std::string& message, const std::string& password) {
+inline void encrypt(const std::string& path, const std::string& message, const std::string& password) {
     std::vector<uint8_t> key = keyFromPassword(password);
     std::vector<uint8_t> iv = generate_random_iv();
 
@@ -126,7 +126,7 @@ void encrypt(const std::string& path, const std::string& message, const std::str
     }
 }
 
-std::string decrypt(const std::string& path, const std::string& password) {
+inline std::string decrypt(const std::string& path, const std::string& password) {
     std::ifstream in(path);
     std::string encryptedMessageHex;
     std::string ivHex;
