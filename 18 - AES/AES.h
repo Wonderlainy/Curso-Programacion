@@ -136,6 +136,7 @@ inline std::string decrypt(const std::string& path, const std::string& password)
         in.close();
     } else {
         std::cout << "No se pudo abrir el fichero.\n";
+        return "";
     }
 
     std::vector<uint8_t> key = keyFromPassword(password);
